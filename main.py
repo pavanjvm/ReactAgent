@@ -6,10 +6,10 @@ from tools import tools,tools_registry
 client = OpenAI()
 load_dotenv()
 
-agent = Agent(client= client,
+agent = CreateReactAgent(client= client,
               system_prompt = system_instruction,
               tools = tools,
               tools_registry = tools_registry,
-              max_iterations=4)
+              max_iterations=10)
 
-print(agent("what is 2 times the mass of the earth"))
+print(agent("what is the mass of the saTurn times the mass of earth"))
