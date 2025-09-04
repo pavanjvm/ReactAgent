@@ -1,12 +1,9 @@
-from openai import OpenAI
 from agent import Agent
-from system_prompt import system_instruction
+from openai import OpenAI
 from dotenv import load_dotenv
+from system_prompt import system_instruction
+from tools import tools
+client = OpenAI()
 load_dotenv()
 
-client = OpenAI()
-
-new_agent=Agent(client,system_instruction)
-
-print(new_agent("hi"))
-print(new_agent.messages)
+agent = Agent(client,system_instruction,tools)

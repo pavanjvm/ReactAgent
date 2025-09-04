@@ -1,3 +1,38 @@
+tools = [
+    {
+        "type": "function",
+        "name": "calculate",
+        "description": "Evaluate a mathematical expression and return the result.",
+        "strict":True,
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "operation": {
+                    "type": "string",
+                    "description": "A valid Python expression, e.g., '2 * 5.972e24'."
+                }
+            },
+            "required": ["operation"],
+        },
+    },
+    {
+        "type": "function",
+        "name": "get_planet_mass",
+        "description": "Get the mass of a planet in kilograms.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "planet": {
+                    "type": "string",
+                    "description": "The name of a planet, e.g., Earth, Mars, Jupiter."
+                }
+            },
+            "required": ["planet"],
+        },
+    },
+]
+
+
 def calculate(operation):
     return eval(operation)
 
@@ -21,4 +56,7 @@ def get_planet_mass(planet) -> float:
             return 1.02413e26
 
 
-
+tools_registry = {
+    {"calculate":calculate},
+    {"get_planet_mass":get_planet_mass}
+}
