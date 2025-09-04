@@ -6,7 +6,7 @@ from tools import tools_registry
 load_dotenv()
 
 
-class Agent:
+class CreateReactAgent:
     def __init__(self,client,system_prompt,tools,tools_registry,max_iterations):
         self.client = client
         self.messages= []
@@ -24,12 +24,15 @@ class Agent:
         i=0
         while i<self.max_iterations:
             i+=1
-            result = self.execute()            
+            result = self.execute()
+                       
             for item in result:
-                if item.type == "output_text":
-                    if "Answer" in item.text:
-                        return item.text
-                    self.messages.append({"role":"assistant","content":item.text})
+                
+                if getattr(item, "content", None):
+                    for content in item.content:
+                        if "Answer" in content.text:
+                            return content.text
+                        self.messages.append({"role":"assistant","content":content.text})
                 if item.type == "function_call":
                     self.messages.append({"type":"function_call","name":item.name,"arguments":item.arguments,"call_id":item.call_id})
                     if item.name not in self.tools_registry:
@@ -38,7 +41,9 @@ class Agent:
                     name = item.name
                     args = json.loads(item.arguments)
                     observation = self.call_function(name,args)
-                    self.messages.append({"type":"function_call_output","name":item.name,"call_id":item.call_id,"output":json.dumps(observation)})                         
+                    self.messages.append({"type":"function_call_output","call_id":item.call_id,"output":json.dumps(observation)})           
+                                
+        
         return "failed to capture the answer"
             
         

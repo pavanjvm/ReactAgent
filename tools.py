@@ -3,7 +3,7 @@ tools = [
         "type": "function",
         "name": "calculate",
         "description": "Evaluate a mathematical expression and return the result.",
-        "strict":True,
+        "strict": True,
         "parameters": {
             "type": "object",
             "properties": {
@@ -13,6 +13,7 @@ tools = [
                 }
             },
             "required": ["operation"],
+            "additionalProperties": False  # ✅ ensures no extra keys
         },
     },
     {
@@ -28,9 +29,11 @@ tools = [
                 }
             },
             "required": ["planet"],
+            "additionalProperties": False  # ✅ ensures no extra keys
         },
     },
 ]
+
 
 
 def calculate(operation):
@@ -57,6 +60,6 @@ def get_planet_mass(planet) -> float:
 
 
 tools_registry = {
-    {"calculate":calculate},
-    {"get_planet_mass":get_planet_mass}
+    "calculate":calculate,
+    "get_planet_mass":get_planet_mass
 }
